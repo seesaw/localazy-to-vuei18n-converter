@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A simple converter from localazy translations format to vue-i18n format",
   "main": "index.js",
+  "bin": {
+    "localazy-to-vuei18n-converter": "bin/cli.js"
+  },
   "scripts": {
   },
   "repository": {
