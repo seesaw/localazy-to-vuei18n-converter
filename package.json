@@ -1,0 +1,22 @@
+{
+  "name": "localazy-to-vuei18n-converter",
+  "version": "1.0.0",
+  "description": "A simple converter from localazy translations format to vue-i18n format",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/seesaw/localazy-to-vuei18n-converter.git"
+  },
+  "keywords": [
+    "localazy",
+    "vue-i18n"
+  ],
+  "author": "Nicola Pagiaro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seesaw/localazy-to-vuei18n-converter/issues"
+  },
+  "homepage": "https://github.com/seesaw/localazy-to-vuei18n-converter#readme"
+}
