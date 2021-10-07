@@ -1,7 +1,3 @@
-try {
-  require('../index').convert()
-}
-catch(error) {
-  console.error(error)
-  process.exit(2)
-}
+#!/usr/bin/env node
+
+require('../index').convert()
