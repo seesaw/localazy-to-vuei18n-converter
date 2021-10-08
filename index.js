@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require('fs')
 
+const convertPluralObjects = require('./converters/pluralObject')
+
 const translationsRelDir = 'translations/downloaded'
 const translationsOutpurRelDir = 'translations/parsed'
 const localazyConfigFile = 'localazy.json'
@@ -20,23 +22,14 @@ const loadTranslations = () => {
   }, {})
 }
 
-const convertWithPluralObjects = (translations) => {
-  const convert = (fileContent) => {
-    // do the conversion
-    return fileContent
-  }
+const persistTranslationsFile = (translations) => {
+  if(!translations) return
 
   Object.keys(translations).forEach(fileName => {
-    const rawTranslation = translations[fileName]
-    const converted = convert(rawTranslation)
-    persistTranslationsFile(fileName, converted)
-    log(`Converted ${fileName}, output in ${translationsOutpurRelDir}`)
+    const absFileName = path.join(translationsOutputDir, fileName)
+    fs.writeFileSync(absFileName, JSON.stringify(translations[fileName], null, 2))
+    log(`converted ${fileName} translations in ${translationsOutpurRelDir}`)
   })
-}
-
-const persistTranslationsFile = (fileName, content) => {
-  const absFileName = path.join(translationsOutputDir, fileName)
-  fs.writeFileSync(absFileName, JSON.stringify(content, null, 2))
 }
 
 exports.convert = () => {
@@ -44,12 +37,15 @@ exports.convert = () => {
   const translations = loadTranslations()
   const pluralType = localazyConfig.upload.features.find(feature => feature.match(/plural_/))
 
+  let output
   switch(pluralType) {
     case 'plural_object':
-      convertWithPluralObjects(translations)
+      output = convertPluralObjects(translations)
       break;
     default:
       log('plural type not reconized')
       break;
   }
+
+  persistTranslationsFile(output)
 }
