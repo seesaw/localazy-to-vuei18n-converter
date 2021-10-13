@@ -8,12 +8,12 @@ const translationsOutpurRelDir = 'translations/parsed'
 const localazyConfigFile = 'localazy.json'
 
 const projectDir = path.dirname(path.dirname(__dirname))
-const translationsDir = path.join(projectDir, translationsRelDir)
 const translationsOutputDir = path.join(projectDir, translationsOutpurRelDir)
 
 const log = (msg) => console.log(`[Localazy-Converter] ${msg}`)
 
-const loadTranslations = () => {
+const loadTranslations = (translationsFilesDirs = null) => {
+  const translationsDir = path.join(projectDir, translationsFilesDirs || translationsRelDir)
   const translationFiles = fs.readdirSync(translationsDir).filter(f => f.endsWith('.json'))
   return translationFiles.reduce((acc, fileName) => {
     const absPath = path.join(translationsDir, fileName)
@@ -32,9 +32,9 @@ const persistTranslationsFile = (translations) => {
   })
 }
 
-exports.convert = () => {
+exports.convert = (translationsFilesDirs = null) => {
   const localazyConfig = JSON.parse(fs.readFileSync(path.join(projectDir, localazyConfigFile)))
-  const translations = loadTranslations()
+  const translations = loadTranslations(translationsFilesDirs)
   const pluralType = localazyConfig.upload.features.find(feature => feature.match(/plural_/))
 
   let output
