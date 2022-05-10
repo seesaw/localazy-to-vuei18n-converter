@@ -32,10 +32,16 @@ const persistTranslationsFile = (translations) => {
   })
 }
 
+const uploadFeaturesFromUploads = localazyConfig => {
+  const rootFeatures = localazyConfig.upload.features || []
+  const specificFilesFeatures = (localazyConfig.upload.files || []).map(fileConfig => fileConfig.features).flat()
+  return [...rootFeatures, ...specificFilesFeatures]
+}
+
 exports.convert = (translationsFilesDirs = null) => {
   const localazyConfig = JSON.parse(fs.readFileSync(path.join(projectDir, localazyConfigFile)))
   const translations = loadTranslations(translationsFilesDirs)
-  const pluralType = localazyConfig.upload.features.find(feature => feature.match(/plural_/))
+  const pluralType = uploadFeaturesFromUploads(localazyConfig).find(feature => feature.match(/plural_/))
 
   let output
   switch(pluralType) {
